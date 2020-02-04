@@ -52,11 +52,11 @@ public class SmaliSteppingCommandProvider extends JvmSteppingCommandProvider {
             @Override protected void action() throws Exception {
                 location[0] = ContextUtil.getSourcePosition(suspendContext);
             }
-        })                                                                        ;
+        });
 
         if (location[0] != null && location[0].getFile().getLanguage() == SmaliLanguage.INSTANCE) {
             return suspendContext.getDebugProcess().createStepOverCommand(suspendContext, ignoreBreakpoints,
-                    StepRequest.STEP_MIN);
+                    null, StepRequest.STEP_MIN);
         }
         return null;
     }
