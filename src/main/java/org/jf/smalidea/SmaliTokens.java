@@ -83,6 +83,7 @@ public class SmaliTokens {
     @SuppressWarnings({"UnusedDeclaration"}) public static IElementType FIELD_OFFSET;
     @SuppressWarnings({"UnusedDeclaration"}) public static IElementType FLOAT_LITERAL;
     @SuppressWarnings({"UnusedDeclaration"}) public static IElementType FLOAT_LITERAL_OR_ID;
+    @SuppressWarnings({"UnusedDeclaration"}) public static IElementType HIDDENAPI_RESTRICTION;
     @SuppressWarnings({"UnusedDeclaration"}) public static IElementType IMPLEMENTS_DIRECTIVE;
     @SuppressWarnings({"UnusedDeclaration"}) public static IElementType INLINE_INDEX;
     @SuppressWarnings({"UnusedDeclaration"}) public static IElementType INSTRUCTION_FORMAT10t;
@@ -202,6 +203,7 @@ public class SmaliTokens {
         tokenColors.put("FIELD_OFFSET", SmaliHighlightingColors.ODEX_REFERENCE);
         tokenColors.put("FLOAT_LITERAL", SmaliHighlightingColors.NUMBER);
         tokenColors.put("FLOAT_LITERAL_OR_ID", SmaliHighlightingColors.NUMBER);
+        tokenColors.put("HIDDENAPI_RESTRICTION", SmaliHighlightingColors.ACCESS);
         tokenColors.put("IMPLEMENTS_DIRECTIVE", SmaliHighlightingColors.DIRECTIVE);
         tokenColors.put("INLINE_INDEX", SmaliHighlightingColors.ODEX_REFERENCE);
         tokenColors.put("INSTRUCTION_FORMAT10t", SmaliHighlightingColors.INSTRUCTION);

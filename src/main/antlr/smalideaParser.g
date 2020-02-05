@@ -247,7 +247,7 @@ class_access_list
 
 access_list
   @init { Marker marker = mark(); }
-  : ACCESS_SPEC*
+  : (ACCESS_SPEC | HIDDENAPI_RESTRICTION)*
   { marker.done(SmaliElementTypes.MODIFIER_LIST); };
   catch [RecognitionException re] {
     recover(input, re);
