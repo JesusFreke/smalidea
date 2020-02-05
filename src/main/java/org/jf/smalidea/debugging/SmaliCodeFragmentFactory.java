@@ -343,7 +343,12 @@ public class SmaliCodeFragmentFactory extends DefaultCodeFragmentFactory {
     private static int mapRegister(final VirtualMachine vm, final SmaliMethod smaliMethod, final int register) {
         if (vm.version().equals("1.5.0")) {
             return mapRegisterForDalvik(smaliMethod, register);
+        } else if (vm.version().equals("0")) {
+            // Newer versions of art (P+? I think) use an openjdk jvmti implementation, that doesn't need any register
+            // remapping
+            return register;
         } else {
+            // For older versions of art
             return mapRegisterForArt(smaliMethod, register);
         }
     }
