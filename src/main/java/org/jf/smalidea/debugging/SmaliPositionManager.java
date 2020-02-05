@@ -38,6 +38,7 @@ import com.intellij.debugger.engine.DebugProcess;
 import com.intellij.debugger.requests.ClassPrepareRequestor;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.Computable;
+import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.sun.jdi.Location;
@@ -99,12 +100,17 @@ public class SmaliPositionManager implements PositionManager {
 
     @Override @NotNull
     public List<ReferenceType> getAllClasses(@NotNull SourcePosition classPosition) throws NoDataException {
-        if (!(classPosition.getElementAt().getContainingFile() instanceof SmaliFile)) {
-            throw NoDataException.INSTANCE;
-        }
+        return ApplicationManager.getApplication().runReadAction(
+                new ThrowableComputable<List<ReferenceType>, NoDataException>() {
+                    @Override public List<ReferenceType> compute() throws NoDataException {
+                        if (!(classPosition.getElementAt().getContainingFile() instanceof SmaliFile)) {
+                            throw NoDataException.INSTANCE;
+                        }
 
-        String className = getClassFromPosition(classPosition);
-        return debugProcess.getVirtualMachineProxy().classesByName(className);
+                        String className = getClassFromPosition(classPosition);
+                        return debugProcess.getVirtualMachineProxy().classesByName(className);
+                    }
+                });
     }
 
     @NotNull
