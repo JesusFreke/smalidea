@@ -324,7 +324,7 @@ public class SmaliCodeFragmentFactory extends DefaultCodeFragmentFactory {
             LocalVariable localVariable = localVariableConstructor.newInstance(vm,
                     method,
                     mapRegister(frameProxy.getStackFrame().virtualMachine(), smaliMethod, registerNum),
-                    method.location(),
+                    method.locationOfCodeIndex(0),
                     endLocation,
                     String.format("v%d", registerNum), type, null);
 
