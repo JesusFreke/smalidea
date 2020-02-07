@@ -1,3 +1,6 @@
 build
 test-config
 test-system
+
+# Ignore Gradle project-specific cache directory
+.gradle
