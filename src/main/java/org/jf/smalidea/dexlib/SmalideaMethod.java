@@ -42,6 +42,7 @@ import com.intellij.psi.PsiParameter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jf.dexlib2.AccessFlags;
+import org.jf.dexlib2.HiddenApiRestriction;
 import org.jf.dexlib2.base.reference.BaseMethodReference;
 import org.jf.dexlib2.iface.*;
 import org.jf.dexlib2.iface.debug.DebugItem;
@@ -141,6 +142,10 @@ public class SmalideaMethod extends BaseMethodReference implements Method {
 
     @Nonnull @Override public Set<? extends Annotation> getAnnotations() {
         // TODO: implement this
+        return ImmutableSet.of();
+    }
+
+    @Nonnull @Override public Set<HiddenApiRestriction> getHiddenApiRestrictions() {
         return ImmutableSet.of();
     }
 

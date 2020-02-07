@@ -389,6 +389,10 @@ public class SmaliClass extends SmaliStubBasedPsiElement<SmaliClassStub> impleme
         return null;
     }
 
+    @Override public boolean hasAnnotation(@NotNull String fqn) {
+        return SmaliModifierListOwner.super.hasAnnotation(fqn);
+    }
+
     @Nullable public Location getLocationForSourcePosition(@Nonnull ReferenceType type,
                                                            @Nonnull SourcePosition position) {
 

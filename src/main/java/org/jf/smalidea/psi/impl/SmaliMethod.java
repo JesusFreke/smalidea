@@ -292,6 +292,10 @@ public class SmaliMethod extends SmaliStubBasedPsiElement<SmaliMethodStub>
         return null;
     }
 
+    @Override public boolean hasAnnotation(@NotNull String fqn) {
+        return SmaliModifierListOwner.super.hasAnnotation(fqn);
+    }
+
     private final Supplier<Map<String, SmaliLabel>> labelMap = Suppliers.memoize(
             new Supplier<Map<String, SmaliLabel>>() {
                 @Override public Map<String, SmaliLabel> get() {

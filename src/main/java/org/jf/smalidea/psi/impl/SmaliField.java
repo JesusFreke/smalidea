@@ -160,6 +160,10 @@ public class SmaliField extends SmaliStubBasedPsiElement<SmaliFieldStub> impleme
         return null;
     }
 
+    @Override public boolean hasAnnotation(@NotNull String fqn) {
+        return SmaliModifierListOwner.super.hasAnnotation(fqn);
+    }
+
     @Override public void setInitializer(@Nullable PsiExpression initializer) throws IncorrectOperationException {
         // TODO: implement this
     }

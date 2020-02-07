@@ -36,6 +36,7 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiModifierList;
 import org.jf.dexlib2.AccessFlags;
+import org.jf.dexlib2.HiddenApiRestriction;
 import org.jf.dexlib2.base.reference.BaseFieldReference;
 import org.jf.dexlib2.iface.Annotation;
 import org.jf.dexlib2.iface.Field;
@@ -111,6 +112,10 @@ public class SmalideaField extends BaseFieldReference implements Field {
 
     @Nonnull @Override public Set<? extends Annotation> getAnnotations() {
         // TODO: implement this. Not needed for method analysis
+        return ImmutableSet.of();
+    }
+
+    @Nonnull @Override public Set<HiddenApiRestriction> getHiddenApiRestrictions() {
         return ImmutableSet.of();
     }
 }

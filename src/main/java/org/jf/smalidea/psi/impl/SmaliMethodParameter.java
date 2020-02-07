@@ -220,4 +220,8 @@ public class SmaliMethodParameter extends SmaliStubBasedPsiElement<SmaliMethodPa
         }
         return parameterStatement.addAnnotation(qualifiedName);
     }
+
+    @Override public boolean hasAnnotation(@NotNull String fqn) {
+        return SmaliModifierListOwner.super.hasAnnotation(fqn);
+    }
 }

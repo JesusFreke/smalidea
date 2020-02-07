@@ -46,7 +46,8 @@ public class StringUtils {
             return null;
         }
 
-        smaliFlexLexer lexer = new smaliFlexLexer(new StringReader(str));
+        // TODO: need to plumb in the api level..
+        smaliFlexLexer lexer = new smaliFlexLexer(new StringReader(str), 18);
         lexer.setSuppressErrors(true);
 
         CommonToken token = (CommonToken)lexer.nextToken();

@@ -143,4 +143,8 @@ public class SmaliClassStatement extends SmaliStubBasedPsiElement<SmaliClassStat
         }
         return containingClass.hasModifierProperty(name);
     }
+
+    @Override public boolean hasAnnotation(@NotNull String fqn) {
+        return SmaliModifierListOwner.super.hasAnnotation(fqn);
+    }
 }

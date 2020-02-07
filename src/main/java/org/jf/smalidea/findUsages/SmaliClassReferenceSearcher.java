@@ -49,7 +49,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jf.smalidea.util.NameUtils;
 
 public class SmaliClassReferenceSearcher extends QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters> {
-    @Override public void processQuery(final SearchParameters queryParameters, final Processor<PsiReference> consumer) {
+    @Override public void processQuery(
+            final SearchParameters queryParameters,
+            final Processor<? super PsiReference> consumer) {
         final PsiElement element = queryParameters.getElementToSearch();
         if (!(element instanceof PsiClass)) {
             return;
