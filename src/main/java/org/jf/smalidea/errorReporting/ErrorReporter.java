@@ -64,16 +64,14 @@ public class ErrorReporter extends ErrorReportSubmitter {
     bean.setDescription(additionalInfo);
     bean.setMessage(event.getMessage());
 
-    Throwable throwable = event.getThrowable();
-    if (throwable != null) {
-      final PluginId pluginId = IdeErrorsDialog.findPluginId(throwable);
-      if (pluginId != null) {
-        final IdeaPluginDescriptor ideaPluginDescriptor = PluginManager.getPlugin(pluginId);
-        if (ideaPluginDescriptor != null && !ideaPluginDescriptor.isBundled()) {
-          bean.setPluginName(ideaPluginDescriptor.getName());
-          bean.setPluginVersion(ideaPluginDescriptor.getVersion());
-        }
-      }
+    IdeaPluginDescriptor plugin = IdeErrorsDialog.getPlugin(event);
+    if (plugin == null) {
+      plugin = PluginManager.getPlugin(PluginId.getId("org.jf.smalidea"));
+    }
+
+    if (plugin != null) {
+      bean.setPluginName(plugin.getName());
+      bean.setPluginVersion(plugin.getVersion());
     }
 
     Object data = event.getData();

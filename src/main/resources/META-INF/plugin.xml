@@ -12,7 +12,7 @@
     ]]>
   </change-notes>
 
-  <idea-version since-build="143"/>
+  <idea-version since-build="191.4212.41"/>
 
   <extensions defaultExtensionNs="com.intellij">
       <fileTypeFactory implementation="org.jf.smalidea.SmaliFileTypeFactory"/>
