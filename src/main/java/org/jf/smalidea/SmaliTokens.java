@@ -36,6 +36,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jf.smali.smaliParser;
+import org.jf.smalidea.highlighter.SmaliHighlightingColors;
 
 import java.lang.reflect.Field;
 import java.util.Map;

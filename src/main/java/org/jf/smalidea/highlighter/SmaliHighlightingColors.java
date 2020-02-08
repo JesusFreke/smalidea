@@ -29,7 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.jf.smalidea;
+package org.jf.smalidea.highlighter;
 
 import com.google.common.collect.Lists;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;

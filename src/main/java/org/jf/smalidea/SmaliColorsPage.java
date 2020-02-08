@@ -38,6 +38,8 @@ import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jf.smalidea.highlighter.SmaliHighlighter;
+import org.jf.smalidea.highlighter.SmaliHighlightingColors;
 
 import javax.swing.*;
 import java.util.List;
