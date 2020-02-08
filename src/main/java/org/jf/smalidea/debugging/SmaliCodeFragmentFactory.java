@@ -43,6 +43,7 @@ import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.Key;
+import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.psi.JavaCodeFragment;
 import com.intellij.psi.JavaRecursiveElementVisitor;
 import com.intellij.psi.PsiElement;
@@ -278,66 +279,68 @@ public class SmaliCodeFragmentFactory extends DefaultCodeFragmentFactory {
     @Nullable
     public static Value evaluateRegister(EvaluationContext context, final SmaliMethod smaliMethod,
                                          final int registerNum, final String type) throws EvaluateException {
-
-        if (registerNum >= smaliMethod.getRegisterCount()) {
-            return null;
-        }
-
-        final StackFrameProxy frameProxy = context.getSuspendContext().getFrameProxy();
-        if (frameProxy == null) {
-            return null;
-        }
-
-        VirtualMachine vm = frameProxy.getStackFrame().virtualMachine();
-        Location currentLocation = frameProxy.location();
-        if (currentLocation == null) {
-            return null;
-        }
-
-        Method method = currentLocation.method();
-
-        try {
-            final Constructor<LocalVariableImpl> localVariableConstructor = LocalVariableImpl.class.getDeclaredConstructor(
-                    VirtualMachine.class, Method.class, Integer.TYPE, Location.class, Location.class, String.class,
-                    String.class, String.class);
-            localVariableConstructor.setAccessible(true);
-
-            Constructor<LocationImpl> locationConstructor = LocationImpl.class.getDeclaredConstructor(
-                    VirtualMachine.class, Method.class, Long.TYPE);
-            locationConstructor.setAccessible(true);
-
-            int methodSize = 0;
-            for (SmaliInstruction instruction: smaliMethod.getInstructions()) {
-                methodSize += instruction.getInstructionSize();
-            }
-            Location endLocation = null;
-            for (int endCodeIndex = (methodSize/2) - 1; endCodeIndex >= 0; endCodeIndex--) {
-                endLocation = method.locationOfCodeIndex(endCodeIndex);
-                if (endLocation != null) {
-                    break;
-                }
-            }
-            if (endLocation == null) {
+        return ApplicationManager.getApplication().runReadAction((ThrowableComputable<Value, EvaluateException>)() -> {
+            if (registerNum >= smaliMethod.getRegisterCount()) {
                 return null;
             }
 
-            LocalVariable localVariable = localVariableConstructor.newInstance(vm,
-                    method,
-                    mapRegister(frameProxy.getStackFrame().virtualMachine(), smaliMethod, registerNum),
-                    method.locationOfCodeIndex(0),
-                    endLocation,
-                    String.format("v%d", registerNum), type, null);
+            final StackFrameProxy frameProxy = context.getSuspendContext().getFrameProxy();
+            if (frameProxy == null) {
+                return null;
+            }
 
-            return frameProxy.getStackFrame().getValue(localVariable);
-        } catch (NoSuchMethodException e) {
-            return null;
-        } catch (InstantiationException e) {
-            return null;
-        } catch (IllegalAccessException e) {
-            return null;
-        } catch (InvocationTargetException e) {
-            return null;
-        }
+            VirtualMachine vm = frameProxy.getStackFrame().virtualMachine();
+            Location currentLocation = frameProxy.location();
+            if (currentLocation == null) {
+                return null;
+            }
+
+            Method method = currentLocation.method();
+
+            try {
+                final Constructor<LocalVariableImpl> localVariableConstructor =
+                        LocalVariableImpl.class.getDeclaredConstructor(
+                            VirtualMachine.class, Method.class, Integer.TYPE, Location.class, Location.class,
+                                String.class, String.class, String.class);
+                localVariableConstructor.setAccessible(true);
+
+                Constructor<LocationImpl> locationConstructor = LocationImpl.class.getDeclaredConstructor(
+                        VirtualMachine.class, Method.class, Long.TYPE);
+                locationConstructor.setAccessible(true);
+
+                int methodSize = 0;
+                for (SmaliInstruction instruction: smaliMethod.getInstructions()) {
+                    methodSize += instruction.getInstructionSize();
+                }
+                Location endLocation = null;
+                for (int endCodeIndex = (methodSize/2) - 1; endCodeIndex >= 0; endCodeIndex--) {
+                    endLocation = method.locationOfCodeIndex(endCodeIndex);
+                    if (endLocation != null) {
+                        break;
+                    }
+                }
+                if (endLocation == null) {
+                    return null;
+                }
+
+                LocalVariable localVariable = localVariableConstructor.newInstance(
+                        vm, method,
+                        mapRegister(frameProxy.getStackFrame().virtualMachine(), smaliMethod, registerNum),
+                        method.locationOfCodeIndex(0),
+                        endLocation,
+                        String.format("v%d", registerNum), type, null);
+
+                return frameProxy.getStackFrame().getValue(localVariable);
+            } catch (NoSuchMethodException e) {
+                return null;
+            } catch (InstantiationException e) {
+                return null;
+            } catch (IllegalAccessException e) {
+                return null;
+            } catch (InvocationTargetException e) {
+                return null;
+            }
+        });
     }
 
     private static int mapRegister(final VirtualMachine vm, final SmaliMethod smaliMethod, final int register) {
