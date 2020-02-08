@@ -34,6 +34,7 @@ package org.jf.smalidea.debugging;
 import com.intellij.debugger.SourcePosition;
 import com.intellij.debugger.engine.ContextUtil;
 import com.intellij.debugger.engine.DebugProcessImpl.ResumeCommand;
+import com.intellij.debugger.engine.MethodFilter;
 import com.intellij.debugger.engine.SuspendContextImpl;
 import com.intellij.debugger.engine.events.DebuggerCommandImpl;
 import com.intellij.debugger.impl.JvmSteppingCommandProvider;
@@ -56,6 +57,24 @@ public class SmaliSteppingCommandProvider extends JvmSteppingCommandProvider {
 
         if (location[0] != null && location[0].getFile().getLanguage() == SmaliLanguage.INSTANCE) {
             return suspendContext.getDebugProcess().createStepOverCommand(suspendContext, ignoreBreakpoints,
+                    null, StepRequest.STEP_MIN);
+        }
+        return null;
+    }
+
+    @Override
+    public ResumeCommand getStepIntoCommand(SuspendContextImpl suspendContext, boolean ignoreFilters, MethodFilter smartStepFilter, int stepSize) {
+
+        final SourcePosition[] location = new SourcePosition[1];
+
+        suspendContext.getDebugProcess().getManagerThread().invokeAndWait(new DebuggerCommandImpl() {
+            @Override protected void action() throws Exception {
+                location[0] = ContextUtil.getSourcePosition(suspendContext);
+            }
+        });
+
+        if (location[0] != null && location[0].getFile().getLanguage() == SmaliLanguage.INSTANCE) {
+            return suspendContext.getDebugProcess().createStepIntoCommand(suspendContext, ignoreFilters,
                     null, StepRequest.STEP_MIN);
         }
         return null;
