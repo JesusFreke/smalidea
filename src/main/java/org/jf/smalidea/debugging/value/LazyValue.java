@@ -63,7 +63,7 @@ public class LazyValue<T extends Value> implements Value {
         this.type = type;
     }
 
-    public static LazyValue create(@Nonnull SmaliMethod method, @Nonnull Project project, int registerNumber,
+    public static LazyValue<?> create(@Nonnull SmaliMethod method, @Nonnull Project project, int registerNumber,
                                    @Nonnull String type) {
         if (type.equals("B")) {
             return new LazyByteValue(method, project, registerNumber, type);
