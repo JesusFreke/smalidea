@@ -234,7 +234,7 @@ public class SmaliCodeFragmentFactory extends DefaultCodeFragmentFactory {
                     registerMap.put("v" + i, smaliType);
                     if (parameterRegisterNumber >= 0) {
                         variablesText.append(javaType).append(" p").append(parameterRegisterNumber).append(";\n");
-                        registerMap.put("p" + parameterRegisterNumber, "Ljava/lang/Object;");
+                        registerMap.put("p" + parameterRegisterNumber, smaliType);
                     }
                     break;
             }
@@ -362,10 +362,6 @@ public class SmaliCodeFragmentFactory extends DefaultCodeFragmentFactory {
 
                 int totalRegisters = smaliMethod.getRegisterCount();
                 int parameterRegisters = smaliMethod.getParameterRegisterCount();
-
-                if (smaliMethod.getModifierList().hasModifierProperty("static")) {
-                    return register;
-                }
 
                 // For ART, the parameter registers are rotated to the front
                 if (register >= (totalRegisters - parameterRegisters)) {
