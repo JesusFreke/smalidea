@@ -31,7 +31,7 @@
 
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id 'org.jetbrains.intellij' version '0.6.5'
 }
 
 apply plugin: 'antlr'
@@ -61,7 +61,7 @@ targetCompatibility = 1.8
 
 
 intellij {
-    version '2019.2.3'
+    version '2020.3.2'
     plugins 'java'
     updateSinceUntilBuild false
 }
