@@ -84,7 +84,8 @@ public class SmaliWordScanner implements WordsScanner {
             SmaliTokens.INSTRUCTION_FORMAT35ms_METHOD,
             SmaliTokens.INSTRUCTION_FORMAT51l);
 
-    @Override public void processWords(CharSequence fileText, Processor<WordOccurrence> processor) {
+    @Override
+    public void processWords(@NotNull CharSequence fileText, @NotNull Processor<? super WordOccurrence> processor) {
         SmaliLexer lexer = new SmaliLexer();
         lexer.start(fileText);
 
@@ -109,7 +110,7 @@ public class SmaliWordScanner implements WordsScanner {
     }
 
     private void processClassDescriptor(CharSequence fileText, int tokenStart, int tokenEnd,
-                                        @NotNull Processor<WordOccurrence> processor) {
+                                        @NotNull Processor<? super WordOccurrence> processor) {
         CharSequence tokenText = fileText.subSequence(tokenStart, tokenEnd);
 
         assert tokenText.charAt(0) == 'L' && tokenText.charAt(tokenText.length()-1) == ';';
