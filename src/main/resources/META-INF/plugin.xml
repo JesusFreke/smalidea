@@ -1,21 +1,21 @@
 <idea-plugin version="2">
     <id>org.jf.smalidea</id>
     <name>Smalidea</name>
-    <version>0.04</version>
+    <version>0.06</version>
     <vendor email="jesusfreke@jesusfreke.com" url="http://smali.org">JesusFreke</vendor>
 
     <description><![CDATA[
-      A smali language plugin for IDEA
+      A smali language plugin for IDEA that supports syntax highlighting, debugging, navigation, etc.
     ]]></description>
 
-    <change-notes><![CDATA[
-    ]]>
+    <change-notes><![CDATA[]]>
     </change-notes>
 
     <idea-version since-build="191.4212.41"/>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileTypeFactory implementation="org.jf.smalidea.SmaliFileTypeFactory"/>
+        <fileType name="smali" implementationClass="org.jf.smalidea.SmaliFileType"
+                  fieldName="INSTANCE" language="smali" extensions="smali"/>
         <syntaxHighlighter key="smali" factoryClass="org.jf.smalidea.highlighter.SmaliHighlighterFactory"/>
         <lang.syntaxHighlighterFactory language="smali"
                                        implementationClass="org.jf.smalidea.highlighter.SmaliHighlighterFactory"/>
