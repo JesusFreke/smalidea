@@ -42,7 +42,7 @@ import org.jf.smalidea.psi.stub.SmaliBaseReferenceListStub;
 
 import java.io.IOException;
 
-public abstract class SmaliBaseReferenceListElementType<StubT extends SmaliBaseReferenceListStub,
+public abstract class SmaliBaseReferenceListElementType<StubT extends SmaliBaseReferenceListStub<?>,
         PsiT extends SmaliBaseReferenceList> extends SmaliStubElementType<StubT, PsiT> {
 
     protected SmaliBaseReferenceListElementType(@NotNull @NonNls String debugName) {

@@ -41,7 +41,7 @@ import org.jf.smalidea.psi.impl.LightSmaliClassTypeElement;
 import org.jf.smalidea.psi.impl.SmaliBaseReferenceList;
 import org.jf.smalidea.psi.impl.SmaliClassType;
 
-public abstract class SmaliBaseReferenceListStub<T extends SmaliBaseReferenceList> extends StubBase<T> {
+public abstract class SmaliBaseReferenceListStub<T extends SmaliBaseReferenceList<?>> extends StubBase<T> {
     @NotNull private final String[] smaliTypeNames;
     @Nullable private SmaliClassType[] classTypes = null;
 

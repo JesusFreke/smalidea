@@ -44,7 +44,7 @@ import org.jf.smalidea.SmaliLanguage;
 
 import java.io.IOException;
 
-public abstract class SmaliStubElementType<StubT extends StubElement, PsiT extends PsiElement>
+public abstract class SmaliStubElementType<StubT extends StubElement<?>, PsiT extends PsiElement>
         extends IStubElementType<StubT, PsiT> {
     protected SmaliStubElementType(@NotNull @NonNls String debugName) {
         super(debugName, SmaliLanguage.INSTANCE);
