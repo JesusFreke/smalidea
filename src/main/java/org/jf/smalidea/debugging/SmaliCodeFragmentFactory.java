@@ -49,9 +49,12 @@ import com.intellij.psi.JavaRecursiveElementVisitor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLocalVariable;
 import com.intellij.psi.util.PsiMatchers;
-import com.sun.jdi.*;
-import com.sun.tools.jdi.LocalVariableImpl;
-import com.sun.tools.jdi.LocationImpl;
+import com.jetbrains.jdi.SlotLocalVariable;
+import com.jetbrains.jdi.StackFrameImpl;
+import com.sun.jdi.Location;
+import com.sun.jdi.Method;
+import com.sun.jdi.Value;
+import com.sun.jdi.VirtualMachine;
 import org.jf.dexlib2.analysis.AnalyzedInstruction;
 import org.jf.dexlib2.analysis.RegisterType;
 import org.jf.smalidea.SmaliFileType;
@@ -63,8 +66,6 @@ import org.jf.smalidea.util.NameUtils;
 import org.jf.smalidea.util.PsiUtil;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -289,7 +290,6 @@ public class SmaliCodeFragmentFactory extends DefaultCodeFragmentFactory {
                 return null;
             }
 
-            VirtualMachine vm = frameProxy.getStackFrame().virtualMachine();
             Location currentLocation = frameProxy.location();
             if (currentLocation == null) {
                 return null;
@@ -297,56 +297,44 @@ public class SmaliCodeFragmentFactory extends DefaultCodeFragmentFactory {
 
             Method method = currentLocation.method();
 
-            try {
-                final Constructor<LocalVariableImpl> localVariableConstructor =
-                        LocalVariableImpl.class.getDeclaredConstructor(
-                            VirtualMachine.class, Method.class, Integer.TYPE, Location.class, Location.class,
-                                String.class, String.class, String.class);
-                localVariableConstructor.setAccessible(true);
-
-                Constructor<LocationImpl> locationConstructor = LocationImpl.class.getDeclaredConstructor(
-                        VirtualMachine.class, Method.class, Long.TYPE);
-                locationConstructor.setAccessible(true);
-
-                int methodSize = 0;
-                for (SmaliInstruction instruction: smaliMethod.getInstructions()) {
-                    methodSize += instruction.getInstructionSize();
+            int methodSize = 0;
+            for (SmaliInstruction instruction: smaliMethod.getInstructions()) {
+                methodSize += instruction.getInstructionSize();
+            }
+            Location endLocation = null;
+            for (int endCodeIndex = (methodSize/2) - 1; endCodeIndex >= 0; endCodeIndex--) {
+                endLocation = method.locationOfCodeIndex(endCodeIndex);
+                if (endLocation != null) {
+                    break;
                 }
-                Location endLocation = null;
-                for (int endCodeIndex = (methodSize/2) - 1; endCodeIndex >= 0; endCodeIndex--) {
-                    endLocation = method.locationOfCodeIndex(endCodeIndex);
-                    if (endLocation != null) {
-                        break;
-                    }
-                }
-                if (endLocation == null) {
-                    return null;
-                }
-
-                LocalVariable localVariable = localVariableConstructor.newInstance(
-                        vm, method,
-                        mapRegister(frameProxy.getStackFrame().virtualMachine(), smaliMethod, registerNum),
-                        method.locationOfCodeIndex(0),
-                        endLocation,
-                        String.format("v%d", registerNum), type, null);
-
-                return frameProxy.getStackFrame().getValue(localVariable);
-            } catch (NoSuchMethodException e) {
-                return null;
-            } catch (InstantiationException e) {
-                return null;
-            } catch (IllegalAccessException e) {
-                return null;
-            } catch (InvocationTargetException e) {
+            }
+            if (endLocation == null) {
                 return null;
             }
+
+            int slotNumber = mapRegister(frameProxy.getStackFrame().virtualMachine(), smaliMethod, registerNum);
+
+            SlotLocalVariable localVariable = new SlotLocalVariable() {
+                @Override public int slot() {
+                    return slotNumber;
+                }
+
+                @Override public String signature() {
+                    return type;
+                }
+            };
+
+            Value[] values = ((StackFrameImpl)frameProxy.getStackFrame()).getSlotsValues(
+                    Lists.newArrayList(localVariable));
+            return values[0];
+
         });
     }
 
     private static int mapRegister(final VirtualMachine vm, final SmaliMethod smaliMethod, final int register) {
         if (vm.version().equals("1.5.0")) {
             return mapRegisterForDalvik(smaliMethod, register);
-        } else if (vm.version().equals("0")) {
+        } else if (vm.version().equals("0") || vm.version().equals("8")) {
             // Newer versions of art (P+? I think) use an openjdk jvmti implementation, that doesn't need any register
             // remapping
             return register;
