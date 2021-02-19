@@ -1,50 +1,57 @@
 <idea-plugin version="2">
-  <id>org.jf.smalidea</id>
-  <name>Smalidea</name>
-  <version>0.04</version>
-  <vendor email="jesusfreke@jesusfreke.com" url="http://smali.org">JesusFreke</vendor>
+    <id>org.jf.smalidea</id>
+    <name>Smalidea</name>
+    <version>0.04</version>
+    <vendor email="jesusfreke@jesusfreke.com" url="http://smali.org">JesusFreke</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       A smali language plugin for IDEA
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <idea-version since-build="191.4212.41"/>
+    <idea-version since-build="191.4212.41"/>
 
-  <extensions defaultExtensionNs="com.intellij">
-      <fileTypeFactory implementation="org.jf.smalidea.SmaliFileTypeFactory"/>
-      <syntaxHighlighter key="smali" factoryClass="org.jf.smalidea.highlighter.SmaliHighlighterFactory"/>
-      <lang.syntaxHighlighterFactory language="smali" implementationClass="org.jf.smalidea.highlighter.SmaliHighlighterFactory"/>
-      <colorSettingsPage implementation="org.jf.smalidea.SmaliColorsPage"/>
-      <lang.parserDefinition language="smali" implementationClass="org.jf.smalidea.SmaliParserDefinition"/>
-      <lang.ast.factory language="smali" implementationClass="org.jf.smalidea.SmaliASTFactory"/>
-      <java.elementFinder implementation="org.jf.smalidea.psi.index.SmaliClassFinder"/>
-      <stubIndex implementation="org.jf.smalidea.psi.index.SmaliClassNameIndex"/>
-      <debugger.positionManagerFactory implementation="org.jf.smalidea.debugging.SmaliPositionManagerFactory"/>
-      <debugger.jvmSteppingCommandProvider implementation="org.jf.smalidea.debugging.SmaliSteppingCommandProvider"/>
-      <debugger.codeFragmentFactory implementation="org.jf.smalidea.debugging.SmaliCodeFragmentFactory"/>
-      <stubElementTypeHolder class="org.jf.smalidea.psi.SmaliElementTypes" />
-      <lang.findUsagesProvider language="smali"
-                               implementationClass="org.jf.smalidea.findUsages.SmaliFindUsagesProvider"/>
-      <referencesSearch implementation="org.jf.smalidea.findUsages.SmaliClassReferenceSearcher"/>
-      <lang.psiStructureViewFactory language="smali"
-                                    implementationClass="org.jf.smalidea.structureView.SmaliStructureViewBuilderFactory"/>
-      <usageTargetProvider implementation="org.jf.smalidea.findUsages.SmaliUsageTargetProvider" />
-      <usageTypeProvider implementation="org.jf.smalidea.findUsages.SmaliUsageTypeProvider"/>
-      <errorHandler implementation="org.jf.smalidea.errorReporting.ErrorReporter"/>
-      <todoIndexer filetype="smali" implementationClass="org.jf.smalidea.highlighter.SmaliTodoIndexer"/>
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="org.jf.smalidea.SmaliFileTypeFactory"/>
+        <syntaxHighlighter key="smali" factoryClass="org.jf.smalidea.highlighter.SmaliHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory language="smali"
+                                       implementationClass="org.jf.smalidea.highlighter.SmaliHighlighterFactory"/>
+        <colorSettingsPage implementation="org.jf.smalidea.SmaliColorsPage"/>
+        <lang.parserDefinition language="smali" implementationClass="org.jf.smalidea.SmaliParserDefinition"/>
+        <lang.ast.factory language="smali" implementationClass="org.jf.smalidea.SmaliASTFactory"/>
+        <java.elementFinder implementation="org.jf.smalidea.psi.index.SmaliClassFinder"/>
+        <stubIndex implementation="org.jf.smalidea.psi.index.SmaliClassNameIndex"/>
+        <debugger.positionManagerFactory implementation="org.jf.smalidea.debugging.SmaliPositionManagerFactory"/>
+        <debugger.jvmSteppingCommandProvider implementation="org.jf.smalidea.debugging.SmaliSteppingCommandProvider"/>
+        <debugger.codeFragmentFactory implementation="org.jf.smalidea.debugging.SmaliCodeFragmentFactory"/>
+        <stubElementTypeHolder class="org.jf.smalidea.psi.SmaliElementTypes"/>
+        <lang.findUsagesProvider language="smali"
+                                 implementationClass="org.jf.smalidea.findUsages.SmaliFindUsagesProvider"/>
+        <referencesSearch implementation="org.jf.smalidea.findUsages.SmaliClassReferenceSearcher"/>
+        <lang.psiStructureViewFactory language="smali"
+                                      implementationClass="org.jf.smalidea.structureView.SmaliStructureViewBuilderFactory"/>
+        <usageTargetProvider implementation="org.jf.smalidea.findUsages.SmaliUsageTargetProvider"/>
+        <usageTypeProvider implementation="org.jf.smalidea.findUsages.SmaliUsageTypeProvider"/>
+        <errorHandler implementation="org.jf.smalidea.errorReporting.ErrorReporter"/>
+        <todoIndexer filetype="smali" implementationClass="org.jf.smalidea.highlighter.SmaliTodoIndexer"/>
+    </extensions>
 
-  <application-components>
-  </application-components>
+    <application-components>
+    </application-components>
 
-  <project-components>
-  </project-components>
+    <project-components>
+    </project-components>
 
-  <actions>
-  </actions>
+    <actions>
+    </actions>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.modules.xdebugger</depends>
+
 
 </idea-plugin>
