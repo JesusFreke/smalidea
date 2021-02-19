@@ -36,11 +36,11 @@ import com.google.common.collect.Lists;
 import com.intellij.debugger.SourcePosition;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
-import com.intellij.navigation.ItemPresentationProviders;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.psi.PsiModifier.ModifierConstant;
+import com.intellij.psi.impl.ElementPresentationUtil;
 import com.intellij.psi.impl.InheritanceImplUtil;
 import com.intellij.psi.impl.PsiClassImplUtil;
 import com.intellij.psi.impl.PsiImplUtil;
@@ -59,13 +59,14 @@ import org.jf.smalidea.psi.SmaliElementTypes;
 import org.jf.smalidea.psi.iface.SmaliModifierListOwner;
 import org.jf.smalidea.psi.leaf.SmaliClassDescriptor;
 import org.jf.smalidea.psi.stub.SmaliClassStub;
+import org.jf.smalidea.util.IconUtils;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.util.Collection;
 import java.util.List;
 
-public class SmaliClass extends SmaliStubBasedPsiElement<SmaliClassStub> implements PsiClass, SmaliModifierListOwner {
+public class SmaliClass extends SmaliStubBasedPsiElement<SmaliClassStub> implements PsiClass, SmaliModifierListOwner, ItemPresentation {
     public SmaliClass(@NotNull SmaliClassStub stub) {
         super(stub, SmaliElementTypes.CLASS);
     }
@@ -89,7 +90,7 @@ public class SmaliClass extends SmaliStubBasedPsiElement<SmaliClassStub> impleme
     }
 
     @Override public ItemPresentation getPresentation() {
-        return ItemPresentationProviders.getItemPresentation(this);
+        return this;
     }
 
     @Nullable @Override public String getQualifiedName() {
@@ -421,5 +422,24 @@ public class SmaliClass extends SmaliStubBasedPsiElement<SmaliClassStub> impleme
 
     @Nullable @Override protected Icon getElementIcon(@IconFlags int flags) {
         return SmaliIcons.SmaliIcon;
+    }
+
+    @Nullable
+    @Override
+    public String getPresentableText() {
+        return getName();
+    }
+
+    @Nullable
+    @Override
+    public String getLocationString() {
+        return getPackageName();
+    }
+
+    @Nullable
+    @Override
+    public Icon getIcon(boolean unused) {
+        int basicClassKind = ElementPresentationUtil.getBasicClassKind(this);
+        return IconUtils.getElementIcon(this, ElementPresentationUtil.getClassIconOfKind(this, basicClassKind));
     }
 }

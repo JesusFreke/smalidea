@@ -30,6 +30,8 @@
       <lang.findUsagesProvider language="smali"
                                implementationClass="org.jf.smalidea.findUsages.SmaliFindUsagesProvider"/>
       <referencesSearch implementation="org.jf.smalidea.findUsages.SmaliClassReferenceSearcher"/>
+      <lang.psiStructureViewFactory language="smali"
+                                    implementationClass="org.jf.smalidea.structureView.SmaliStructureViewBuilderFactory"/>
       <usageTargetProvider implementation="org.jf.smalidea.findUsages.SmaliUsageTargetProvider" />
       <usageTypeProvider implementation="org.jf.smalidea.findUsages.SmaliUsageTypeProvider"/>
       <errorHandler implementation="org.jf.smalidea.errorReporting.ErrorReporter"/>

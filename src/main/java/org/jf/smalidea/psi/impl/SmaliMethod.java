@@ -36,16 +36,17 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.Maps;
 import com.intellij.debugger.SourcePosition;
 import com.intellij.lang.ASTNode;
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.editor.Document;
 import com.intellij.psi.*;
 import com.intellij.psi.PsiModifier.ModifierConstant;
 import com.intellij.psi.impl.PsiImplUtil;
 import com.intellij.psi.impl.PsiSuperMethodImplUtil;
 import com.intellij.psi.javadoc.PsiDocComment;
-import com.intellij.psi.util.MethodSignature;
-import com.intellij.psi.util.MethodSignatureBackedByPsiMethod;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.util.*;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.PlatformIcons;
+import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,14 +58,16 @@ import org.jf.smalidea.dexlib.analysis.SmalideaClassProvider;
 import org.jf.smalidea.psi.SmaliElementTypes;
 import org.jf.smalidea.psi.iface.SmaliModifierListOwner;
 import org.jf.smalidea.psi.stub.SmaliMethodStub;
+import org.jf.smalidea.util.IconUtils;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class SmaliMethod extends SmaliStubBasedPsiElement<SmaliMethodStub>
-        implements PsiMethod, SmaliModifierListOwner, PsiAnnotationMethod {
+        implements PsiMethod, SmaliModifierListOwner, PsiAnnotationMethod, ItemPresentation {
     public SmaliMethod(@NotNull SmaliMethodStub stub) {
         super(stub, SmaliElementTypes.METHOD);
     }
@@ -88,6 +91,10 @@ public class SmaliMethod extends SmaliStubBasedPsiElement<SmaliMethodStub>
             name = "<unnamed>";
         }
         return name;
+    }
+
+    @Override public ItemPresentation getPresentation() {
+        return this;
     }
 
     @Override public boolean hasTypeParameters() {
@@ -371,5 +378,38 @@ public class SmaliMethod extends SmaliStubBasedPsiElement<SmaliMethodStub>
             }
         }
         return null;
+    }
+
+    @Nullable
+    @Override
+    public String getPresentableText() {
+        return PsiFormatUtil.formatMethod(this, PsiSubstitutor.EMPTY,
+                PsiFormatUtilBase.SHOW_NAME
+                        | PsiFormatUtilBase.SHOW_TYPE | PsiFormatUtilBase.TYPE_AFTER
+                        | PsiFormatUtilBase.SHOW_PARAMETERS,
+                PsiFormatUtilBase.SHOW_TYPE);
+    }
+
+    @Nullable
+    @Override
+    public String getLocationString() {
+        PsiMethod superMethod = findDeepestSuperMethod();
+        if (superMethod != null) {
+            char upArrow = '\u2191';
+            PsiClass containingClass = superMethod.getContainingClass();
+            if (containingClass != null) {
+                String location = containingClass.getQualifiedName();
+                return UIUtil.getLabelFont().canDisplay(upArrow) ? upArrow + location : location;
+            }
+        }
+        return "";
+    }
+
+    @Nullable
+    @Override
+    public Icon getIcon(boolean unused) {
+        return IconUtils.getElementIcon(this, hasModifierProperty(PsiModifier.ABSTRACT)
+                ? PlatformIcons.ABSTRACT_METHOD_ICON
+                : PlatformIcons.METHOD_ICON);
     }
 }
