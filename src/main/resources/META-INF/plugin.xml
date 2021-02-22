@@ -37,6 +37,11 @@
         <usageTypeProvider implementation="org.jf.smalidea.findUsages.SmaliUsageTypeProvider"/>
         <errorHandler implementation="org.jf.smalidea.errorReporting.ErrorReporter"/>
         <todoIndexer filetype="smali" implementationClass="org.jf.smalidea.highlighter.SmaliTodoIndexer"/>
+
+        <!-- The "Smali" (with a capital S) language is the one registered by Android Studio's smali plugin.
+             This substitutor ensures that smalidea's "smali" (lowercase s) language is used instead of AS's "Smali"
+             language. -->
+        <lang.substitutor language="Smali" implementationClass="org.jf.smalidea.SmaliSubstitutor"/>
     </extensions>
 
     <application-components>
