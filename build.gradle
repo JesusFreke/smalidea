@@ -78,11 +78,11 @@ sourceSets.main.compileClasspath = configurations.priorityImplementation + sourc
 dependencies {
     // This is a bit of a hack to force smali and dexlib2 to be added to the compile classpath
     // before the IntelliJ IDEA sources - which also contain an older version of these libraries.
-    priorityImplementation group: 'org.smali', name: 'smali', version: '2.4.0'
-    priorityImplementation group: 'org.smali', name: 'dexlib2', version: '2.4.0'
+    priorityImplementation group: 'org.smali', name: 'smali', version: '2.5.0'
+    priorityImplementation group: 'org.smali', name: 'dexlib2', version: '2.5.0'
 
-    implementation group: 'org.smali', name: 'smali', version: '2.4.0'
-    implementation group: 'org.smali', name: 'dexlib2', version: '2.4.0'
+    implementation group: 'org.smali', name: 'smali', version: '2.5.0'
+    implementation group: 'org.smali', name: 'dexlib2', version: '2.5.0'
     implementation group: 'org.antlr', name: 'antlr-runtime', version: '3.5.2'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
 
