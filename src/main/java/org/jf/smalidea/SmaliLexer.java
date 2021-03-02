@@ -42,7 +42,7 @@ import org.jf.smali.util.BlankReader;
 
 public class SmaliLexer extends LexerBase {
     // TODO: need to plumb in the api level somehow
-    private final smaliFlexLexer lexer = new smaliFlexLexer(BlankReader.INSTANCE, 18);
+    private final smaliFlexLexer lexer = new smaliFlexLexer(BlankReader.INSTANCE, 30);
     private CommonToken token = null;
     private int state = 0;
     private int endOffset;
