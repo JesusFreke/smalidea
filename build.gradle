@@ -100,3 +100,8 @@ generateGrammarSource {
     outputDirectory(file("${buildDir}/generated-src/antlr/main/org/jf/smalidea"))
 }
 generateGrammarSource.dependsOn(extractTokens)
+
+wrapper {
+    gradleVersion = '6.8.2'
+    distributionType = Wrapper.DistributionType.ALL
+}
