@@ -72,10 +72,11 @@ Note: Single-instruction stepping is only supported in IDEA 14.1 and greater, an
 4. Once the project has been created, right click on the src directory and select "Mark Directory As->Sources Root"
 5. Open the project settings and select/create an appropriate JDK
 6. Install/start the application on the device
-7. Run ddms, and select the application's process
-8. In IDEA, Create a new "Remote" debug configuration (Run->Edit Configurations), and change the debug port to 8700
-9. Run->Debug
-10. The application should pause if/when the breakpoint is hit, at which point you can single step, add watches, etc.
+7. Run `adb shell ps | grep <package-name>` and take note of the pid of the application process
+8. run `adb forward tcp:8700 jdwp:<pid>`
+9. In IDEA, Create a new "Remote" debug configuration (Run->Edit Configurations), and change the debug port to 8700
+10. Run->Debug
+11. The application should pause if/when the breakpoint is hit, at which point you can single step, add watches, etc.
 
 or do the following in recent Android Studio 3.2:
 
@@ -83,7 +84,9 @@ or do the following in recent Android Studio 3.2:
 2. In Android Studio, close your current project and select "Open an existing Android Studio project".
 3. Once the project has been created, right click on the src directory and select "Mark Directory As->Sources Root"
 4. Make sure your app has `android:debuggable="true"` in Android Manifest. Turn on "USB debugging" and use "Select debug app" to select your app in "Developer options" on Android device
-5. Start your application and forward JDWP service to localhost using `adb forward tcp:8700 jdwp:$(timeout 0.5 adb jdwp | tail -n 1)`
-6. In Android Studio, Create a new "Remote" debug configuration (Run->Edit Configurations), and change the debug port to 8700
-7. In Android Studio, select Run -> Debug
-8. The application should pause if/when the breakpoint is hit, at which point you can single step, add watches, etc.
+5. Install/start the application on the device
+6. Run `adb shell ps | grep <package-name>` and take note of the pid of the application process
+7. run `adb forward tcp:8700 jdwp:<pid>`
+8. In Android Studio, Create a new "Remote" debug configuration (Run->Edit Configurations), and change the debug port to 8700
+9. In Android Studio, select Run -> Debug
+10. The application should pause if/when the breakpoint is hit, at which point you can single step, add watches, etc.
