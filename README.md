@@ -1,12 +1,19 @@
 smalidea is a smali language plugin for [IntelliJ IDEA](https://www.jetbrains.com/idea/)/[Android Studio](http://developer.android.com/sdk/index.html)
 
-### [DOWNLOAD](https://bitbucket.org/JesusFreke/smali/downloads) ###
+### [DOWNLOAD](https://bitbucket.org/JesusFreke/smalidea/downloads) ###
 
 It is currently very experimental, and you will likely run into issues.
 
 [![](https://raw.githubusercontent.com/wiki/JesusFreke/smali/smalidea.png)](https://raw.githubusercontent.com/wiki/JesusFreke/smali/smalidea.png)
 
 ## News
+* 2021-03-02 - v0.06 is out. This brings smalidea back up to snuff with regards to modern versions of IDEA/Android Studio
+  * This force updates the smali file type to be associated with this plugin instead of the built-in smali plugin in Android Studio
+  * This adds support for the new synaxes (hidden api restrictions, spaces in identifiers, etc.)
+  * This [fixes a problem](https://github.com/JesusFreke/smalidea/pull/10) with how registers were mapped on art while debugging (thanks @bet4it)
+  * [Structure view](https://github.com/JesusFreke/smalidea/pull/14) for smali files (thanks @Donlon)
+
+
 * 2020-02-23 - smalidea has been migrated to a separate repository. This new repository is a filtered copy
 of the original smali repository in order to maintain the git history. However, any versions prior to this migration
 are not expected to actually build. If you need to build an old version for some reason, you should check out and
@@ -49,7 +56,7 @@ build from the smali repository.
   * Find locations where the register's value could have been set
 
 ## Installation
-1. Download the latest smalidea zip file from the [Bitbucket download page](https://bitbucket.org/JesusFreke/smali/downloads)
+1. Download the latest smalidea zip file from the [Bitbucket download page](https://bitbucket.org/JesusFreke/smalidea/downloads)
 2. In IDEA/AS, go to Settings->Plugins and click the "Install plugin from disk" button, selecting the downloaded smalidea zip file
 3. Click "Apply" and restart IDEA/AS
 4. ???
