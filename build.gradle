@@ -36,7 +36,7 @@ plugins {
 
 apply plugin: 'antlr'
 
-version = '0.05'
+version = '0.06'
 
 def versionSuffix
 try {
