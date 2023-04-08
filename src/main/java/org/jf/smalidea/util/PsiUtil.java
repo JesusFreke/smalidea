@@ -32,13 +32,20 @@
 package org.jf.smalidea.util;
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiMatcher;
 import com.intellij.psi.util.PsiMatcherExpression;
+import com.intellij.psi.util.PsiMatchers;
+import org.jf.smalidea.psi.impl.SmaliField;
+import org.jf.smalidea.psi.impl.SmaliFile;
 
 public class PsiUtil {
     public static PsiElement searchBackward(PsiElement element, PsiMatcherExpression matcher,
                                             PsiMatcherExpression until) {
+
         while (!matcher.match(element)) {
-            if (until.match(element)) {
+            if (until.match(element)
+                    || PsiMatchers.hasClass(SmaliField.class).match(element)
+                    || PsiMatchers.hasClass(SmaliFile.class).match(element)) {
                 return null;
             }
             PsiElement prev = element.getPrevSibling();
@@ -56,7 +63,9 @@ public class PsiUtil {
     public static PsiElement searchForward(PsiElement element, PsiMatcherExpression matcher,
                                             PsiMatcherExpression until) {
         while (!matcher.match(element)) {
-            if (until.match(element)) {
+            if (until.match(element)
+                    || PsiMatchers.hasClass(SmaliFile.class).match(element)
+                    || PsiMatchers.hasClass(SmaliField.class).match(element)) {
                 return null;
             }
             PsiElement next = element.getNextSibling();
